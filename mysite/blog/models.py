@@ -13,6 +13,7 @@ from wagtail.snippets.models import register_snippet
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
+from wagtail.search import index
 
 class BlogPageTag(TaggedItemBase):
     content_object = ParentalKey(
@@ -66,6 +67,16 @@ class BlogPage(Page):
         FieldPanel("tags"),
         InlinePanel("gallery_images", label="Gallery images"),
     ]
+    search_fields = Page.search_fields + [
+        index.SearchField('intro'),
+        index.SearchField('body'),
+        index.SearchField('tag_list'),
+    ]
+
+    @property
+    def tag_list(self):
+        return ", ".join(tag.name for tag in self.tags.all())
+
 
 
 class BlogPageGalleryImage(Orderable):
