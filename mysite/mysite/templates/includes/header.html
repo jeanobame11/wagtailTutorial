@@ -1,13 +1,23 @@
-{% load wagtailcore_tags navigation_tags %}
+{% load wagtailcore_tags navigation_tags wagtailuserbar %}
 
 <header>
+    <a href="#main" class="skip-link">Skip to content</a>
+
     {% get_site_root as site_root %}
+
     <nav>
-        <p>
-        <a href="{% pageurl site_root %}">Home</a> |
-        {% for menuitem in site_root.get_children.live.in_menu %}
-            <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
-        {% endfor %}
-        </p>
+        <ul class="nav-links">
+            <!-- Home -->
+            <li><a href="{% pageurl site_root %}">{{ site_root.title }}</a></li>
+
+            <!-- Dynamic menu items -->
+            {% for menuitem in site_root.get_children.live.in_menu %}
+                <li>
+                    <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     </nav>
+
+    {% wagtailuserbar "top-right" %}
 </header>
