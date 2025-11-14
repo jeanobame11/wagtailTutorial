@@ -29,16 +29,22 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+    {% wagtailuserbar %}
 
-        {% block content %}{% endblock %}
+    {# Add your header template to your base template: #}
+    {% include "includes/header.html" %}
 
-        {% include "includes/footer.html" %}
+    {% block content %}{% endblock %}
 
+    {% include "includes/footer.html" %}
 
-        <script type="text/javascript" src="{% static 'js/mysite.js' %}"></script>
+    {# Global javascript #}
 
-        {% block extra_js %}{% endblock %}
-    </body>
+    <script type="text/javascript" src="{% static 'js/mysite.js' %}"></script>
+
+    {% block extra_js %}
+    {# Override this in templates to add extra javascript #}
+    {% endblock %}
+</body>
 </html>
 
